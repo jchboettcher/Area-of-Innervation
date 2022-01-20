@@ -5,7 +5,7 @@ let currImage;
 
 function preload() {
   currImage = parseInt(window.location.search.substring(1));
-  currImage = !!currImage ? currImage : 1;
+  currImage = (!currImage || currImage < 1) ? 1 : (currImage > 22) ? 22 : currImage;
   for (let i = 0; i < 22; i++) {
     images.push(loadImage("images/"+(i+1)+".png"));
   }
@@ -20,6 +20,9 @@ function setup() {
   clearBtn = createButton("Clear")
   clearBtn.mousePressed(clearPts)
   clearBtn.parent("canv")
+  prevBtn = createButton("Previous")
+  prevBtn.mousePressed(prev)
+  prevBtn.parent("canv")
   nextBtn = createButton("Next")
   nextBtn.mousePressed(next)
   nextBtn.parent("canv")
@@ -35,6 +38,11 @@ function clearPts() {
 
 function next() {
   currImage = (currImage % 22) + 1
+  clearPts()
+}
+
+function prev() {
+  currImage = ((currImage+20) % 22) + 1
   clearPts()
 }
 
